@@ -1,0 +1,4 @@
+java -jar artifacts/app-deadline.jar
+
+java -jar artifacts/app-deadline.jar -P:jdbc.url=jdbc:mysql://localhost:3306/deadline -P:jdbc.user=mrtotalsecurity -P:jdbc.password=CzmGtmRjc3cLGV7KXza294520qCMYXuF
+
