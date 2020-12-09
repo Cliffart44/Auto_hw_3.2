@@ -1,12 +1,13 @@
 package data;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Setter
 public class Codes {
     private String code;
+
+    @Override
+    public String toString() {
+        return code;
+    }
 }
