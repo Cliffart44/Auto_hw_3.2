@@ -107,7 +107,7 @@ public class PageUiTest {
 
     @Test
     @Order(6)
-//    @Disabled
+    @Disabled
     void shouldGetCardsAnotherUser() {
         int cardOne = starterBalanceCardOne / 100;
         int cardTwo = starterBalanceCardTwo / 100;
@@ -136,7 +136,7 @@ public class PageUiTest {
 
     @Test
     @Order(7)
-//    @Disabled
+    @Disabled
     void shouldNotMakeTransactionAnotherUser() {
         given()
                 .baseUri("http://localhost:9999/api")
