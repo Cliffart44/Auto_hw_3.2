@@ -1,38 +1,38 @@
 package test;
 
 import lombok.val;
-import org.apache.commons.dbutils.handlers.ScalarHandler;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.apache.commons.dbutils.QueryRunner;
+import org.junit.jupiter.api.*;
 import page.LoginPage;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
 import static com.codeborne.selenide.Selenide.open;
 import static data.DataHelper.*;
+import static data.DbHelper.*;
+
 
 public class PageUiTest {
-    static QueryRunner runner = new QueryRunner();
-    static Connection conn;
-
-    @BeforeAll
-    static void createConnection() throws SQLException {
-        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/deadline", "mrtotalsecurity", "CzmGtmRjc3cLGV7KXza294520qCMYXuF");
-    }
+    final Connection conn = establishConnection();
 
     @BeforeEach
     void setUp() {
         open("http://localhost:9999");
     }
 
+    @AfterEach
+    void cleanUp() {
+        wipeCodes(conn);
+    }
+
     @Test
-    void shouldLogIn() throws SQLException {
+    void shouldLogIn() {
         val verificationPage = new LoginPage().validLogin(getAuthInfo());
-        verificationPage.validVerify(runner.query(conn, "SELECT code FROM auth_codes", new ScalarHandler<>()));
-        runner.execute(conn, "TRUNCATE auth_codes");
+        verificationPage.validVerify(getCode(conn));
+    }
+
+    @Test
+//    @Disabled
+    void shouldBeBlocked() {
+        new LoginPage().tripleInvalidLogin(getAnotherAuthInfo());
     }
 }
