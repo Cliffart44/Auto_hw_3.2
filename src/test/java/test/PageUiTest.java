@@ -31,7 +31,7 @@ public class PageUiTest {
     }
 
     @Test
-//    @Disabled
+    @Disabled
     void shouldBeBlocked() {
         new LoginPage().tripleInvalidLogin(getAnotherAuthInfo());
     }
