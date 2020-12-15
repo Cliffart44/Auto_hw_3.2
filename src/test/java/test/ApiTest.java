@@ -55,14 +55,14 @@ public class ApiTest {
 
     @Test
     @Order(6)
-//    @Disabled
+    @Disabled
     void shouldGetCardsAnotherUser() {
         getCardsWithCustomBody(cardOneBalance(conn), cardTwoBalance(conn), token);
     }
 
     @Test
     @Order(7)
-//    @Disabled
+    @Disabled
     void shouldNotMakeTransactionAnotherUser() {
         makeTransaction(token, fromFirstToSecond(starterCardOneBalance + 1), 400);
     }
