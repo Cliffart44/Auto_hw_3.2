@@ -8,22 +8,32 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 public class DbHelper {
+    private final static Connection conn = establishConnection();
+    private final static QueryRunner runn = new QueryRunner();
 
     private DbHelper() {
     }
 
     @SneakyThrows
-    public static Connection establishConnection() {
+    private static Connection establishConnection() {
         return DriverManager.getConnection("jdbc:mysql://localhost:3306/deadline", "mrtotalsecurity", "CzmGtmRjc3cLGV7KXza294520qCMYXuF");
     }
 
     @SneakyThrows
-    public static String getCode(Connection conn) {
-        return new QueryRunner().query(conn, "SELECT code FROM auth_codes", new ScalarHandler<>());
+    public static String getCode() {
+        return runn.query(conn, "SELECT code FROM auth_codes", new ScalarHandler<>());
     }
 
     @SneakyThrows
-    public static void wipeCodes(Connection conn) {
-        new QueryRunner().execute(conn, "TRUNCATE auth_codes");
+    public static void wipeCodes() {
+        runn.execute(conn, "TRUNCATE auth_codes");
+    }
+
+    @SneakyThrows
+    public static void wipeEverything() {
+        runn.execute(conn, "TRUNCATE auth_codes");
+        runn.execute(conn, "TRUNCATE cards;");
+        runn.execute(conn, "TRUNCATE card_transactions;");
+        runn.execute(conn, "DELETE FROM users WHERE status LIKE '%ive';");
     }
 }

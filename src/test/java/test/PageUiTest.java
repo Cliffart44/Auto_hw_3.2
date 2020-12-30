@@ -4,15 +4,12 @@ import lombok.val;
 import org.junit.jupiter.api.*;
 import page.LoginPage;
 
-import java.sql.Connection;
-
 import static com.codeborne.selenide.Selenide.open;
 import static data.DataHelper.*;
 import static data.DbHelper.*;
 
 
 public class PageUiTest {
-    final Connection conn = establishConnection();
 
     @BeforeEach
     void setUp() {
@@ -20,19 +17,27 @@ public class PageUiTest {
     }
 
     @AfterEach
-    void cleanUp() {
-        wipeCodes(conn);
+    void tidyUp() {
+        wipeCodes();
+    }
+
+    @AfterAll
+    static void totalTidyUp() {
+        wipeEverything();
     }
 
     @Test
     void shouldLogIn() {
         val verificationPage = new LoginPage().validLogin(getAuthInfo());
-        verificationPage.validVerify(getCode(conn));
+        verificationPage.validVerify(getCode());
     }
 
     @Test
-    @Disabled
+//    @Disabled
     void shouldBeBlocked() {
-        new LoginPage().tripleInvalidLogin(getAnotherAuthInfo());
+        LoginPage page = new LoginPage();
+        page.login(getAnotherAuthInfo());
+        page.login(getAnotherAuthInfo());
+        page.blockingLogin(getAnotherAuthInfo());
     }
 }
