@@ -10,9 +10,9 @@
 * [Docker](https://www.docker.com/get-started)
 
 #### Установка и запуск `SUT`
-1. Вначале следует запустить [`Docker`-контейнер](https://github.com/Cliffart44/Auto_hw_3.2/tree/2ed81de0c34a6e019a8b4534690d69cdb7437a22/Docker) с базой данных через [`docker-compose`](https://docs.docker.com/compose/#automated-testing-environments).
-2. Затем можно [использовать](https://github.com/Cliffart44/Auto_hw_3.2/blob/2ed81de0c34a6e019a8b4534690d69cdb7437a22/java%20-jar.txt#L3) специальную сборку [`app-deadline.jar`](https://github.com/Cliffart44/Auto_hw_3.2/raw/2ed81de0c34a6e019a8b4534690d69cdb7437a22/artifacts/app-deadline.jar).
-3. Для перезапуска `SUT` следует остановить `jar`-приложение с помощью [`Ctrl+C`](https://en.wikipedia.org/wiki/Control-C), контейнер с помощью `docker-compose down -v`.
+1. Вначале следует запустить [`Docker`-контейнер](https://github.com/Cliffart44/Auto_hw_3.2/tree/2ed81de0c34a6e019a8b4534690d69cdb7437a22/Docker) с базой данных через [`docker-compose`](https://docs.docker.com/compose/#automated-testing-environments): `docker-compose up -d`.
+2. Затем можно [задействовать](https://github.com/Cliffart44/Auto_hw_3.2/blob/2ed81de0c34a6e019a8b4534690d69cdb7437a22/java%20-jar.txt#L3) специальную сборку [`app-deadline.jar`](https://github.com/Cliffart44/Auto_hw_3.2/raw/2ed81de0c34a6e019a8b4534690d69cdb7437a22/artifacts/app-deadline.jar): `java -jar artifacts/app-deadline.jar -P:jdbc.url=jdbc:mysql://localhost:3306/deadline -P:jdbc.user=mrtotalsecurity -P:jdbc.password=CzmGtmRjc3cLGV7KXza294520qCMYXuF`.
+3. Для перезапуска `SUT` следует остановить `jar`-приложение с помощью [`Ctrl+C`](https://en.wikipedia.org/wiki/Control-C), а затем снова запустить.
 
 ---
 ---
