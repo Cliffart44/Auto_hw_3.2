@@ -1,7 +1,13 @@
 package data;
 
+import com.google.common.base.CharMatcher;
 import com.google.gson.Gson;
+import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import io.restassured.response.ResponseBody;
+import io.restassured.response.ResponseBodyData;
+
+import java.sql.ResultSet;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
@@ -36,8 +42,8 @@ public class ApiHelper {
                 .toString();
     }
 
-    public static void getCards(String token) {
-        given()
+    public static String getCards(String token) {
+        String body = given()
                 .baseUri("http://localhost:9999/api")
                 .header(
                         "Authorization", "Bearer " + token)
@@ -46,7 +52,20 @@ public class ApiHelper {
                 .then()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
-                .body(matchesJsonSchemaInClasspath("API_schema.json"));
+                .body(matchesJsonSchemaInClasspath("API_schema.json"))
+                .extract()
+                .response()
+                .getBody()
+                .asString();
+        return body;
+    }
+
+    public static int cardTwoBalanceApi(String token) {
+        return Integer.parseInt(CharMatcher.inRange('0', '9').retainFrom(getCards(token).substring(100, 120)));
+    }
+
+    public static int cardOneBalanceApi(String token) {
+        return Integer.parseInt(CharMatcher.inRange('0', '9').retainFrom(getCards(token).substring(220)));
     }
 
     public static void getCardsWithCustomBody(int cardOneBalance, int cardTwoBalance, String token) {

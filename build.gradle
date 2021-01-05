@@ -19,7 +19,7 @@ dependencies {
     implementation 'mysql:mysql-connector-java:8.0.22'
     implementation 'commons-dbutils:commons-dbutils:1.7'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.7.0'
-//    testImplementation 'com.codeborne:selenide:5.16.2'
+//    testImplementation 'com.codeborne:selenide:5.17.2'
 //    testImplementation 'org.slf4j:slf4j-nop:1.7.30'
     testImplementation 'io.rest-assured:rest-assured:4.3.3'
     testImplementation 'io.rest-assured:json-schema-validator:4.3.3'

@@ -8,10 +8,9 @@ import static data.DataHelper.TransactionProperties.*;
 import static data.DbHelper.*;
 import static data.ApiHelper.*;
 
-//@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ApiTest {
     static final int transactionAmount = 5000;
-    static String token;
 
     @AfterAll
     static void totalTidyUp() {
@@ -19,37 +18,38 @@ public class ApiTest {
     }
 
     @Test
-//    @Order(1)
+    @Order(1)
     void shouldMakeTransaction() {
-        int starterCardOneBalance = cardOneBalance();
-        int starterCardTwoBalance = cardTwoBalance();
         logIn(getAuthInfo());
-        token = verification(getAuthInfo().getLogin(), getCodeAsIs());
-        getCards(token);
+        final String token = verification(getAuthInfo().getLogin(), getCodeAsIs());
+        final int starterCardOneBalance = cardOneBalanceApi(token);
+        final int starterCardTwoBalance = cardTwoBalanceApi(token);
+        assertEquals(starterCardOneBalance, cardOneBalanceDb() / 100);
+        assertEquals(starterCardTwoBalance, cardTwoBalanceDb() / 100);
         makeTransaction(token, fromFirstToSecond(transactionAmount), 200);
-        assertEquals(starterCardOneBalance - (transactionAmount * 100), cardOneBalance());
-        assertEquals(starterCardTwoBalance + (transactionAmount * 100), cardTwoBalance());
+        assertEquals(starterCardOneBalance - transactionAmount, cardOneBalanceApi(token));
+        assertEquals(starterCardTwoBalance + transactionAmount, cardTwoBalanceApi(token));
     }
 
     @Test
-//    @Order(2)
-//    @Disabled
+    @Order(2)
     void shouldMakeTransactionAnotherUser() {
-        int starterCardOneBalance = cardOneBalance();
-        int starterCardTwoBalance = cardTwoBalance();
         logIn(getAnotherAuthInfo());
-        token = verification(getAnotherAuthInfo().getLogin(), getCodeAsIs());
-        getCardsWithCustomBody(cardOneBalance(), cardTwoBalance(), token);
+        final String token = verification(getAnotherAuthInfo().getLogin(), getCodeAsIs());
+        final int starterCardOneBalance = cardOneBalanceDb();
+        final int starterCardTwoBalance = cardTwoBalanceDb();
+//        getCardsWithCustomBody(cardOneBalanceDb(), cardTwoBalanceDb(), token); /* Failing part */
         makeTransaction(token, fromSecondToFirst(transactionAmount), 200);
-        assertEquals(starterCardOneBalance + (transactionAmount * 100), cardOneBalance());
-        assertEquals(starterCardTwoBalance - (transactionAmount * 100), cardTwoBalance());
+        assertEquals(starterCardOneBalance + (transactionAmount * 100), cardOneBalanceDb());
+        assertEquals(starterCardTwoBalance - (transactionAmount * 100), cardTwoBalanceDb());
     }
 
     @Test
-//    @Order(3)
-//    @Disabled
+    @Order(3)
+    @Disabled
     void shouldNotMakeTransactionAnotherUser() {
-        int starterCardOneBalance = cardOneBalance();
-        makeTransaction(token, fromFirstToSecond(starterCardOneBalance + 1), 400);
+        logIn(getAnotherAuthInfo());
+        final String token = verification(getAnotherAuthInfo().getLogin(), getCodeAsIs());
+        makeTransaction(token, fromFirstToSecond(cardTwoBalanceApi(token) + 1), 400);
     }
 }

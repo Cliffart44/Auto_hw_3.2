@@ -28,12 +28,12 @@ public class DbHelper {
     }
 
     @SneakyThrows
-    public static int cardOneBalance() {
+    public static int cardOneBalanceDb() {
         return runn.query(conn, "SELECT balance_in_kopecks FROM cards WHERE number LIKE '%01';", new ScalarHandler<>());
     }
 
     @SneakyThrows
-    public static int cardTwoBalance() {
+    public static int cardTwoBalanceDb() {
         return runn.query(conn, "SELECT balance_in_kopecks FROM cards WHERE number LIKE '%02';", new ScalarHandler<>());
     }
 
