@@ -5,6 +5,7 @@ import org.junit.jupiter.api.*;
 import page.LoginPage;
 
 import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.sleep;
 import static data.DataHelper.*;
 import static data.DbHelper.*;
 
@@ -33,7 +34,7 @@ public class PageUiTest {
     }
 
     @Test
-//    @Disabled
+    @Disabled
     void shouldBeBlocked() {
         LoginPage page = new LoginPage();
         page.login(getAnotherAuthInfo());

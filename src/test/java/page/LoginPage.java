@@ -2,6 +2,7 @@ package page;
 
 import com.codeborne.selenide.SelenideElement;
 import data.DataHelper;
+import org.openqa.selenium.Keys;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
@@ -13,8 +14,8 @@ public class LoginPage {
     private SelenideElement blockedHeading = $("[data-test-id=blocked]");
 
     public void login(DataHelper.AuthInfo info) {
-        loginField.setValue(info.getLogin());
-        passwordField.setValue(info.getPassword());
+        loginField.sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), info.getLogin());
+        passwordField.sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), info.getPassword());
         loginButton.click();
     }
 
